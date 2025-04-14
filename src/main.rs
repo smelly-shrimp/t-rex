@@ -1,7 +1,7 @@
 use csv::Reader;
 use image::{DynamicImage, GenericImageView, ImageBuffer, RgbaImage};
 use serde::Deserialize;
-use std::io::{self, Write};
+use std::{fs, io::{self, Write}, path::Path};
 
 #[derive(Debug, Deserialize)]
 struct Row {
@@ -65,10 +65,18 @@ fn read_defaults() -> InputVals {
     print!("path to asset image (default: ./image.png): ");
     let img_path = read_input(String::from("./image.png"));
 
-    print!("path to destination directory (default: blocks):");
-    let dir_path = read_input(String::from("blocks"));
+    print!("path to destination directory (default: ./blocks): ");
+    let dir_path = read_input(String::from("./blocks"));
 
     InputVals { chunk_size, rows_path, img_path, dir_path }
+}
+
+fn fill_path(path_str: &String) {
+    let path = Path::new(&path_str);
+
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent).unwrap();
+    }
 }
 
 fn main() {
@@ -82,6 +90,8 @@ fn main() {
     for row in &rows {
         let chunk_img = sub_img(&img, row.x, row.y, input_vals.chunk_size);
 
-        chunk_img.save(format!("{}/{}.png", input_vals.dir_path, row.name)).unwrap();
+        let path = format!("{}/{}.png", input_vals.dir_path, row.name);
+        fill_path(&path);
+        chunk_img.save(&path).unwrap();
     }
 }
