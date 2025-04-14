@@ -13,7 +13,7 @@ struct Row {
 
 #[derive(Parser, Debug)]
 struct Args {
-    #[arg(long, default_value_t = 10)]
+    #[arg(long, default_value_t = 16)]
     chunk: u32,
     #[arg(long, default_value_t = String::from("./data.csv"))]
     csv: String,
