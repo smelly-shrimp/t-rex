@@ -10,6 +10,13 @@ struct Row {
     name: String,
 }
 
+struct InputVals {
+    chunk_size: u32,
+    rows_path: String,
+    img_path: String,
+    dir_path: String,
+}
+
 fn read_rows(path: &str) -> Vec<Row> {
     let mut rd = Reader::from_path(path)
         .expect("no such file");
@@ -48,18 +55,33 @@ fn read_input<T: std::str::FromStr>(default: T) -> T {
     }
 }
 
-fn main() {
+fn read_defaults() -> InputVals {
     print!("chunk/block size (default: 16): ");
-    let chunk_size: u32 = read_input(16);
+    let chunk_size = read_input(16);
 
-    let blocks = read_rows("src/blocks.csv");
+    print!("path to csv data (default: ./data.csv): ");
+    let rows_path = read_input(String::from("./data.csv"));
 
-    let img = image::open("src/blocks.png")
+    print!("path to asset image (default: ./image.png): ");
+    let img_path = read_input(String::from("./image.png"));
+
+    print!("path to destination directory (default: blocks):");
+    let dir_path = read_input(String::from("blocks"));
+
+    InputVals { chunk_size, rows_path, img_path, dir_path }
+}
+
+fn main() {
+    let input_vals = read_defaults();
+
+    let rows = read_rows(&input_vals.rows_path);
+
+    let img = image::open(input_vals.img_path)
         .expect("file doesn't exist");
 
-    for block in &blocks {
-        let chunk_img = sub_img(&img, block.x, block.y, chunk_size);
+    for row in &rows {
+        let chunk_img = sub_img(&img, row.x, row.y, input_vals.chunk_size);
 
-        chunk_img.save(format!("src/blocks/{}.png", block.name)).unwrap();
+        chunk_img.save(format!("{}/{}.png", input_vals.dir_path, row.name)).unwrap();
     }
 }
