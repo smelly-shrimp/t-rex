@@ -24,8 +24,7 @@ struct Args {
 }
 
 fn read_rows(path: &str) -> Vec<Row> {
-    let mut rd = Reader::from_path(path)
-        .expect("no such file");
+    let mut rd = Reader::from_path(path).unwrap();
 
     let mut rows = Vec::<Row>::new();
 
@@ -61,12 +60,8 @@ fn fill_path(path_str: &String) {
 fn main() {
     let args = Args::parse();
 
-    dbg!(&args);
-
     let rows = read_rows(&args.csv);
-
-    let img = image::open(args.asset)
-        .expect("file doesn't exist");
+    let img = image::open(args.asset).unwrap();
 
     for row in &rows {
         let chunk_img = sub_img(&img, row.x, row.y, args.chunk);
