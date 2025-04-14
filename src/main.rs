@@ -1,7 +1,8 @@
 use csv::Reader;
 use image::{DynamicImage, GenericImageView, ImageBuffer, RgbaImage};
 use serde::Deserialize;
-use std::{fs, io::{self, Write}, path::Path};
+use std::{fs, path::Path};
+use clap::{arg, Parser};
 
 #[derive(Debug, Deserialize)]
 struct Row {
@@ -10,11 +11,16 @@ struct Row {
     name: String,
 }
 
-struct InputVals {
-    chunk_size: u32,
-    rows_path: String,
-    img_path: String,
-    dir_path: String,
+#[derive(Parser, Debug)]
+struct Args {
+    #[arg(long, default_value_t = 10)]
+    chunk: u32,
+    #[arg(long, default_value_t = String::from("./data.csv"))]
+    csv: String,
+    #[arg(long, default_value_t = String::from("./image.png"))]
+    asset: String,
+    #[arg(long, default_value_t = String::from("./blocks"))]
+    dir: String,
 }
 
 fn read_rows(path: &str) -> Vec<Row> {
@@ -44,33 +50,6 @@ fn sub_img(img: &DynamicImage, sx: u32, sy: u32, chunk_size: u32) -> RgbaImage {
     chunk_img
 }
 
-fn read_input<T: std::str::FromStr>(default: T) -> T {
-    let mut input = String::new();
-    io::stdout().flush().unwrap();
-    io::stdin().read_line(&mut input).unwrap();
-
-    match input.trim().parse::<T>() {
-        Ok(val) => val,
-        Err(_) => default,
-    }
-}
-
-fn read_defaults() -> InputVals {
-    print!("chunk/block size (default: 16): ");
-    let chunk_size = read_input(16);
-
-    print!("path to csv data (default: ./data.csv): ");
-    let rows_path = read_input(String::from("./data.csv"));
-
-    print!("path to asset image (default: ./image.png): ");
-    let img_path = read_input(String::from("./image.png"));
-
-    print!("path to destination directory (default: ./blocks): ");
-    let dir_path = read_input(String::from("./blocks"));
-
-    InputVals { chunk_size, rows_path, img_path, dir_path }
-}
-
 fn fill_path(path_str: &String) {
     let path = Path::new(&path_str);
 
@@ -80,17 +59,19 @@ fn fill_path(path_str: &String) {
 }
 
 fn main() {
-    let input_vals = read_defaults();
+    let args = Args::parse();
 
-    let rows = read_rows(&input_vals.rows_path);
+    dbg!(&args);
 
-    let img = image::open(input_vals.img_path)
+    let rows = read_rows(&args.csv);
+
+    let img = image::open(args.asset)
         .expect("file doesn't exist");
 
     for row in &rows {
-        let chunk_img = sub_img(&img, row.x, row.y, input_vals.chunk_size);
+        let chunk_img = sub_img(&img, row.x, row.y, args.chunk);
 
-        let path = format!("{}/{}.png", input_vals.dir_path, row.name);
+        let path = format!("{}/{}.png", args.dir, row.name);
         fill_path(&path);
         chunk_img.save(&path).unwrap();
     }
