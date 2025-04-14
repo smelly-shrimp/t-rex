@@ -1,4 +1,5 @@
 use csv::Reader;
+use image::{ImageBuffer, RgbaImage};
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
@@ -23,7 +24,12 @@ fn read_rows(path: &str) -> Vec<Row> {
 }
 
 fn main() {
+    let chunk_size = 16;
     let blocks = read_rows("src/blocks.csv");
 
-    dbg!(blocks);
+    for block in &blocks {
+        let chunk_img: RgbaImage = ImageBuffer::new(chunk_size, chunk_size);
+
+        chunk_img.save(format!("src/blocks/{}.png", block.name)).unwrap();
+    }
 }
