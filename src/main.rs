@@ -1,6 +1,7 @@
 use csv::Reader;
-use image::{DynamicImage, GenericImageView, ImageBuffer, ImageResult, RgbaImage};
+use image::{DynamicImage, GenericImageView, ImageBuffer, RgbaImage};
 use serde::Deserialize;
+use std::io::{self, Write};
 
 #[derive(Debug, Deserialize)]
 struct Row {
@@ -36,8 +37,21 @@ fn sub_img(img: &DynamicImage, sx: u32, sy: u32, chunk_size: u32) -> RgbaImage {
     chunk_img
 }
 
+fn read_input<T: std::str::FromStr>(default: T) -> T {
+    let mut input = String::new();
+    io::stdout().flush().unwrap();
+    io::stdin().read_line(&mut input).unwrap();
+
+    match input.trim().parse::<T>() {
+        Ok(val) => val,
+        Err(_) => default,
+    }
+}
+
 fn main() {
-    let chunk_size = 16;
+    print!("chunk/block size (default: 16): ");
+    let chunk_size: u32 = read_input(16);
+
     let blocks = read_rows("src/blocks.csv");
 
     let img = image::open("src/blocks.png")
