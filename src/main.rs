@@ -19,7 +19,7 @@ struct Args {
     csv: String,
     #[arg(long, default_value_t = String::from("./image.png"))]
     asset: String,
-    #[arg(long, default_value_t = String::from("./blocks"))]
+    #[arg(long, default_value_t = String::from("./res"))]
     dir: String,
 }
 
