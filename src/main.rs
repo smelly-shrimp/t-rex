@@ -1,15 +1,8 @@
-use csv::Reader;
+pub mod data;
+
 use image::{DynamicImage, GenericImageView, ImageBuffer, RgbaImage};
-use serde::Deserialize;
 use std::{fs, path::Path};
 use clap::{arg, Parser};
-
-#[derive(Debug, Deserialize)]
-struct Row {
-    x: u32,
-    y: u32,
-    name: String,
-}
 
 #[derive(Parser, Debug)]
 struct Args {
@@ -21,19 +14,6 @@ struct Args {
     asset: String,
     #[arg(long, default_value_t = String::from("./res"))]
     dir: String,
-}
-
-fn read_rows(path: &str) -> Vec<Row> {
-    let mut rd = Reader::from_path(path).unwrap();
-
-    let mut rows = Vec::<Row>::new();
-
-    for res in rd.deserialize() {
-        let row: Row = res.unwrap();
-        rows.push(row);
-    }
-
-    rows
 }
 
 fn sub_img(img: &DynamicImage, sx: u32, sy: u32, chunk_size: u32) -> RgbaImage {
@@ -60,7 +40,7 @@ fn fill_path(path_str: &String) {
 fn main() {
     let args = Args::parse();
 
-    let rows = read_rows(&args.csv);
+    let rows = data::read_rows(&args.csv);
     let img = image::open(args.asset).unwrap();
 
     for row in &rows {
