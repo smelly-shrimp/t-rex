@@ -1,6 +1,6 @@
 pub mod data;
+pub mod img;
 
-use image::{DynamicImage, GenericImageView, ImageBuffer, RgbaImage};
 use std::{fs, path::Path};
 use clap::{arg, Parser};
 
@@ -14,19 +14,6 @@ struct Args {
     asset: String,
     #[arg(long, default_value_t = String::from("./res"))]
     dir: String,
-}
-
-fn sub_img(img: &DynamicImage, sx: u32, sy: u32, chunk_size: u32) -> RgbaImage {
-    let mut chunk_img: RgbaImage = ImageBuffer::new(chunk_size, chunk_size);
-
-    for y in 0..chunk_size {
-        for x in 0..chunk_size {
-            let pixel = img.get_pixel(x + sx * chunk_size, y + sy * chunk_size);
-            chunk_img.put_pixel(x, y, pixel);
-        }
-    }
-
-    chunk_img
 }
 
 fn fill_path(path_str: &String) {
@@ -44,7 +31,7 @@ fn main() {
     let img = image::open(args.asset).unwrap();
 
     for row in &rows {
-        let chunk_img = sub_img(&img, row.x, row.y, args.chunk);
+        let chunk_img = img::sub(&img, row.x, row.y, args.chunk);
 
         let path = format!("{}/{}.png", args.dir, row.name);
         fill_path(&path);
