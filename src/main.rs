@@ -1,17 +1,9 @@
 pub mod config;
 pub mod data;
 pub mod img;
+pub mod utils;
 
 use clap::Parser;
-use std::{fs, path::Path};
-
-fn fill_path(path_str: &String) {
-    let path = Path::new(&path_str);
-
-    if let Some(parent) = path.parent() {
-        fs::create_dir_all(parent).unwrap();
-    }
-}
 
 fn main() {
     let args = config::Args::parse();
@@ -27,7 +19,7 @@ fn main() {
         let chunk_img = img::sub(&img, row.x, row.y, args.chunk);
 
         let path = format!("{}/{}.png", &args.dir, &row.name);
-        fill_path(&path);
+        utils::fill_path(&path);
         chunk_img.save(&path).unwrap();
     }
 }
