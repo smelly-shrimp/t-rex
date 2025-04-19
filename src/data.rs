@@ -1,5 +1,8 @@
+use std::fs;
+
 use csv::Reader;
 use serde::Deserialize;
+use serde_json::Value;
 
 #[derive(Debug, Deserialize)]
 pub struct Row {
@@ -19,4 +22,12 @@ pub fn read_rows(path: &str) -> Vec<Row> {
     }
 
     rows
+}
+
+pub fn build_structure(path: &str) {
+    let data = fs::read_to_string(path).unwrap();
+
+    let json: Value = serde_json::from_str(&data).unwrap();
+
+    dbg!(json);
 }

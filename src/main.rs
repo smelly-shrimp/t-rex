@@ -3,6 +3,7 @@ pub mod img;
 
 use std::{fs, path::Path};
 use clap::{arg, Parser};
+use data::build_structure;
 
 #[derive(Parser, Debug)]
 struct Args {
@@ -25,6 +26,7 @@ fn fill_path(path_str: &String) {
 }
 
 fn main() {
+    build_structure("./assets/structure.template.json");
     let args = Args::parse();
 
     let rows = data::read_rows(&args.csv);

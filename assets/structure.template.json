@@ -1,0 +1,20 @@
+{
+    "assets": {
+        "minecraft": {
+            "textures": {
+                "blocks": {},
+                "colormap": {},
+                "entity": {},
+                "environment": {},
+                "font": {},
+                "gui": {},
+                "items": {},
+                "misc": {},
+                "models": {},
+                "painting": {},
+                "particle": {}
+            }
+        }
+    },
+    "pack.mcmeta": "{\n\"pack\": {\n\"pack_format\": 1,\n\"description\": \"Edit pack.mcmeta to edit description\"\n}\n}"
+}
