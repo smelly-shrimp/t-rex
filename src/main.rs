@@ -12,7 +12,7 @@ fn main() {
     let img = image::open(args.asset).unwrap();
 
     if args.pack.len() > 0 {
-        data::setup_structure("./assets/structure.template.json");
+        data::setup_structure(&args.structure);
     }
 
     for row in &rows {

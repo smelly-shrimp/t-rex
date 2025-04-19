@@ -12,4 +12,6 @@ pub struct Args {
     pub dir: String,
     #[arg(long, default_value_t = String::from(""))]
     pub pack: String,
+	#[arg(long, default_value_t = String::from("./assets/structure.template.json"))]
+    pub structure: String,
 }
