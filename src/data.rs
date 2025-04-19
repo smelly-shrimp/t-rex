@@ -1,4 +1,4 @@
-use std::fs;
+use std::{fs::{self, File}, io::Write};
 
 use csv::Reader;
 use serde::Deserialize;
@@ -24,10 +24,28 @@ pub fn read_rows(path: &str) -> Vec<Row> {
     rows
 }
 
-pub fn build_structure(path: &str) {
+fn build_structure(value: &Value, path: &str) {
+    if let Value::Object(dir) = value {
+        for (k, v) in dir {
+            if let Value::String(content) = v {
+                let p = format!("{}{}", path, k);
+
+                let mut f = File::create(&p).unwrap();
+                f.write_all(content.as_bytes()).unwrap();
+            } else {
+                let p = format!("{}{}/", &path, k);
+
+                fs::create_dir(&p).unwrap();
+                build_structure(v, &p);
+            }
+        }
+    }
+}
+
+pub fn setup_structure(path: &str) {
     let data = fs::read_to_string(path).unwrap();
 
     let json: Value = serde_json::from_str(&data).unwrap();
 
-    dbg!(json);
+    build_structure(&json, "./pack/");
 }

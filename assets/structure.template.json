@@ -4,17 +4,47 @@
             "textures": {
                 "blocks": {},
                 "colormap": {},
-                "entity": {},
+                "entity": {
+                    "armorstand": {},
+                    "banner": {},
+                    "cat": {},
+                    "chest": {},
+                    "cow": {},
+                    "creeper": {},
+                    "endercrystal": {},
+                    "enderdragon": {},
+                    "enderman": {},
+                    "ghast": {},
+                    "pig": {},
+                    "projectiles": {},
+                    "rabbit": {},
+                    "sheep": {},
+                    "skeleton": {},
+                    "slime": {},
+                    "spider": {},
+                    "wither": {},
+                    "wolf": {},
+                    "zombie": {}
+                },
                 "environment": {},
                 "font": {},
-                "gui": {},
+                "gui": {
+                    "container": {
+                        "creative_inventory": {}
+                    },
+                    "title": {
+                        "background": {}
+                    }
+                },
                 "items": {},
                 "misc": {},
-                "models": {},
+                "models": {
+                    "armor": {}
+                },
                 "painting": {},
                 "particle": {}
             }
         }
     },
-    "pack.mcmeta": "{\n\"pack\": {\n\"pack_format\": 1,\n\"description\": \"Edit pack.mcmeta to edit description\"\n}\n}"
+    "pack.mcmeta": "{\n\t\"pack\": {\n\t\t\"pack_format\": 1,\n\t\t\"description\": \"Edit pack.mcmeta to edit description\"\n\t}\n}"
 }
