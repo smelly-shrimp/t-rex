@@ -7,12 +7,12 @@ pub mod form;
 fn main() {
     println!("Hello! It's texture maker configuration.");
 
-    form::get_csv_path();
-    form::get_asset_path();
-    
-    form::get_chunk_size();
+    form::csv_path();
+    form::asset_path();
 
-    form::get_dest_path();
+    form::chunk_size();
+
+    form::dest_path();
 
     // let args = config::Args::parse();
 
