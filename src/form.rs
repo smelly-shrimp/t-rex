@@ -3,34 +3,28 @@ use inquire::Text;
 pub fn get_csv_path() -> String {
 	let def = String::from("./assets/data.csv");
 
-	let res = Text::new("Enter CSV path")
+	Text::new("Enter CSV path")
 		.with_default(&def)
 		.prompt()
-		.unwrap_or_else(|_| def);
-
-	res
+		.unwrap_or_else(|_| def)
 }
 
 pub fn get_asset_path() -> String {
 	let def = String::from("./assets/image.png");
 
-	let res = Text::new("Enter asset path")
+	Text::new("Enter asset path")
 		.with_default(&def)
 		.prompt()
-		.unwrap_or_else(|_| def);
-
-	res
+		.unwrap_or_else(|_| def)
 }
 
 pub fn get_dest_path() -> String {
 	let def = String::from("./res");
 
-	let res = Text::new("Enter destination path")
+	Text::new("Enter destination path")
 		.with_default(&def)
 		.prompt()
-		.unwrap_or_else(|_| def);
-
-	res
+		.unwrap_or_else(|_| def)
 }
 
 pub fn get_chunk_size() -> u32 {
