@@ -42,10 +42,10 @@ fn build_structure(value: &Value, path: &str) {
     }
 }
 
-pub fn setup_structure(path: &str) {
-    let data = fs::read_to_string(path).unwrap();
+pub fn setup_structure(structure_path: &str, pack_path: &str) {
+    let data = fs::read_to_string(&structure_path).unwrap();
 
     let json: Value = serde_json::from_str(&data).unwrap();
 
-    build_structure(&json, "./pack/");
+    build_structure(&json, &pack_path);
 }

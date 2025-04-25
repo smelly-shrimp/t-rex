@@ -11,14 +11,16 @@ fn main() {
     let rows = data::read_rows(&args.csv);
     let img = image::open(args.asset).unwrap();
 
+    let mut dest = args.dest;
     if args.pack.len() > 0 {
-        data::setup_structure(&args.structure);
+        dest = format!("{}/", &args.pack);
+        data::setup_structure(&args.structure, &dest);
     }
 
     for row in &rows {
         let chunk_img = img::sub(&img, row.x, row.y, args.chunk);
 
-        let path = format!("{}/{}.png", &args.dir, &row.name);
+        let path = format!("{}/{}.png", &dest, &row.name);
         utils::fill_path(&path);
         chunk_img.save(&path).unwrap();
     }
