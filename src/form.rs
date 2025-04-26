@@ -1,4 +1,4 @@
-use inquire::Text;
+use inquire::{Select, Text};
 
 pub fn csv_path() -> String {
 	let def = String::from("./assets/data.csv");
@@ -54,11 +54,31 @@ pub fn is_pack() -> bool {
 	}
 }
 
-pub fn dest_path() -> String {
-	let def = String::from("./res");
+pub fn pack_path() -> String {
+	let def = String::from("./res_pack");
 
-	Text::new("Enter destination path")
+	Text::new("Enter resource pack path")
 		.with_default(&def)
 		.prompt()
 		.unwrap_or_else(|_| def)
+}
+
+pub fn dest_path() -> String {
+	let def = String::from("./tmp");
+	let options = vec![
+		"foo",
+		"bar",
+		"baz",
+	];
+
+	let res = Select::new("Select destination path", options)
+		.prompt();
+
+	match res {
+		Ok(path) => String::from(path),
+		Err(_) => {
+			println!("Invalid selection, using default ({})", def);
+			def
+		},
+	}
 }

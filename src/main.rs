@@ -12,6 +12,10 @@ fn main() {
 
     form::chunk_size();
 
+    if form::is_pack() {
+        form::pack_path();
+    }
+
     form::dest_path();
 
     // let args = config::Args::parse();
