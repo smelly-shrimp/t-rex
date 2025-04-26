@@ -1,4 +1,4 @@
-use inquire::{Select, Text};
+use inquire::{Confirm, Select, Text};
 
 pub fn csv_path() -> String {
 	let def = String::from("./assets/data.csv");
@@ -40,12 +40,11 @@ pub fn chunk_size() -> u32 {
 pub fn is_pack() -> bool {
 	let def = false;
 
-	let res = Text::new("Do you want to create entire resource pack?")
-		.with_default(&def.to_string())
-		.prompt()
-		.unwrap_or_else(|_| def.to_string());
+	let res = Confirm::new("Do you want to create entire resource pack?")
+		.with_default(def)
+		.prompt();
 
-	match res.parse::<bool>() {
+	match res {
 		Ok(is_pack) => is_pack,
 		Err(_) => {
 			println!("Invalid pack value, using default ({})", def);
