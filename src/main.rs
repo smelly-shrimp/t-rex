@@ -7,6 +7,10 @@ pub mod form;
 fn main() {
     println!("Hello! It's texture maker configuration.");
 
+    if form::is_help() {
+        println!("\n\nINFO! Help is not implemented yet.\n\n");
+    }
+
     let csv_path = form::csv_path();
     let asset_path = form::asset_path();
 
@@ -22,6 +26,11 @@ fn main() {
     };
 
     let dest_path = form::dest_path();
+
+    if !form::is_confirm() {
+        println!("INFO! Cancelling...");
+        return;
+    }
 
     println!("CSV path: {}", csv_path);
     println!("Asset path: {}", asset_path);

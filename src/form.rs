@@ -1,5 +1,21 @@
 use inquire::{Confirm, Select, Text};
 
+pub fn is_help() -> bool {
+	let def = false;
+
+	let res = Confirm::new("Do you want to see help?")
+		.with_default(def)
+		.prompt();
+
+	match res {
+		Ok(is_help) => is_help,
+		Err(_) => {
+			println!("Invalid help value, using default ({})", def);
+			def
+		},
+	}
+}
+
 pub fn csv_path() -> String {
 	let def = String::from("./assets/data.csv");
 
@@ -77,6 +93,22 @@ pub fn dest_path() -> String {
 		Ok(path) => String::from(path),
 		Err(_) => {
 			println!("Invalid selection, using default ({})", def);
+			def
+		},
+	}
+}
+
+pub fn is_confirm() -> bool {
+	let def = false;
+
+	let res = Confirm::new("Are you sure? All files in path will be replaced.")
+		.with_default(def)
+		.prompt();
+
+	match res {
+		Ok(is_confirm) => is_confirm,
+		Err(_) => {
+			println!("Invalid confirmation value, using default ({})", def);
 			def
 		},
 	}
