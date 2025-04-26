@@ -19,4 +19,7 @@ pub struct Args {
 
 	#[arg(long, default_value_t = String::from("./assets/structure.template.json"))]
     pub structure: String,
+
+    #[clap(short, long)]
+    pub ui: bool,
 }
