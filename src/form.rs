@@ -1,4 +1,7 @@
+use std::{fs, option};
+
 use inquire::{Confirm, Select, Text};
+use serde_json::Value;
 
 pub fn is_help() -> bool {
 	let def = false;
@@ -87,13 +90,27 @@ pub fn pack_path() -> String {
 		.unwrap_or_else(|_| def)
 }
 
-pub fn dest_path() -> String {
+fn get_structure(value: &Value, path: &str, options: &mut Vec<String>) {
+	if let Value::Object(obj) = value {
+        for (k, v) in obj {
+			if let Value::Object(_) = v {
+				let p = format!("{}{}/", &path, k);
+
+				options.push(p.clone());
+				get_structure(v, &p, options);
+			}
+        }
+    }
+}
+
+pub fn dest_path(structure_path: &str) -> String {
 	let def = String::from("./res");
-	let options = vec![
-		"foo",
-		"bar",
-		"baz",
-	];
+	let mut options = Vec::<String>::new();
+
+	let data = fs::read_to_string(&structure_path).unwrap();
+    let json: Value = serde_json::from_str(&data).unwrap();
+
+    get_structure(&json, "", &mut options);
 
 	let res = Select::new("Select destination path", options)
 		.prompt();

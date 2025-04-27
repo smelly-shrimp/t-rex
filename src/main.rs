@@ -1,5 +1,4 @@
 use clap::Parser;
-use utils::{get_last_config, set_last_config};
 
 pub mod config;
 pub mod data;
@@ -11,9 +10,9 @@ fn main() {
     let args = config::Args::parse();
 
     let data = if args.last {
-        print!("\n\nINFO! Running with previous configuration...\n\n");
+        println!("\n\nINFO! Running with previous configuration...\n\n");
 
-        get_last_config()
+        utils::get_last_config()
     } else if args.ui {
         println!("Hello! It's texture maker configuration.");
 
@@ -36,7 +35,7 @@ fn main() {
             String::from("")
         };
 
-        let dest_path = form::dest_path();
+        let dest_path = form::dest_path(&args.structure);
 
         if !form::is_confirm() {
             println!("INFO! Cancelling...");
@@ -57,7 +56,7 @@ fn main() {
         args
     };
 
-    set_last_config(&data);
+    utils::set_last_config(&data);
 
     dbg!(data);
 
