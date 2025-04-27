@@ -9,7 +9,7 @@ pub mod form;
 fn main() {
     let args = config::Args::parse();
 
-    if args.ui {
+    let data = if args.ui {
         println!("Hello! It's texture maker configuration.");
 
         if form::is_help() {
@@ -37,12 +37,20 @@ fn main() {
             return;
         }
 
-        println!("CSV path: {}", csv_path);
-        println!("Asset path: {}", asset_path);
-        println!("Chunk size: {}", chunk_size);
-        println!("Pack path: {}", pack_path);
-        println!("Destination path: {}", dest_path);
-    }
+        config::Args {
+            chunk: chunk_size,
+            csv: csv_path,
+            asset: asset_path,
+            dest: dest_path,
+            pack: pack_path,
+            structure: String::from("./assets/structure.template.json"),
+            ui: args.ui,
+        }
+    } else {
+        args
+    };
+
+    println!("{:?}", data);
 
     // let rows = data::read_rows(&args.csv);
     // let img = image::open(args.asset).unwrap();
