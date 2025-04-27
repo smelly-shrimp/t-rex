@@ -5,14 +5,6 @@ use serde_json::ser::PrettyFormatter;
 
 use crate::config::Args;
 
-pub fn fill_path(path_str: &String) {
-    let path = Path::new(&path_str);
-
-    if let Some(parent) = path.parent() {
-        fs::create_dir_all(parent).unwrap();
-    }
-}
-
 pub fn get_last_config() -> Args {
     let path = Path::new("./lc.json");
     

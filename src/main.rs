@@ -1,3 +1,5 @@
+use std::fs;
+
 use clap::Parser;
 
 pub mod config;
@@ -73,9 +75,9 @@ fn main() {
     for row in &rows {
         let chunk_img = img::sub(&img, row.x, row.y, data.chunk);
 
+        fs::create_dir_all(&dest).unwrap();
         let path = format!("{}/{}.png", &dest, &row.name);
 
-        utils::fill_path(&path);
         chunk_img.save(&path).unwrap();
     }
 }
