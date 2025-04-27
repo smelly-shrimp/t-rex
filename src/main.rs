@@ -16,6 +16,7 @@ fn main() {
             println!("\n\nINFO! Help is not implemented yet.\n\n");
         }
 
+        let structure_path = form::structure_path();
         let csv_path = form::csv_path();
         let asset_path = form::asset_path();
 
@@ -43,7 +44,7 @@ fn main() {
             asset: asset_path,
             dest: dest_path,
             pack: pack_path,
-            structure: String::from("./assets/structure.template.json"),
+            structure: structure_path,
             ui: args.ui,
         }
     } else {

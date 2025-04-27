@@ -16,6 +16,15 @@ pub fn is_help() -> bool {
 	}
 }
 
+pub fn structure_path() -> String {
+	let def = String::from("./assets/structure.template.json");
+
+	Text::new("Enter structure path")
+		.with_default(&def)
+		.prompt()
+		.unwrap_or_else(|_| def)
+}
+
 pub fn csv_path() -> String {
 	let def = String::from("./assets/data.csv");
 
@@ -79,7 +88,7 @@ pub fn pack_path() -> String {
 }
 
 pub fn dest_path() -> String {
-	let def = String::from("./tmp");
+	let def = String::from("./res");
 	let options = vec![
 		"foo",
 		"bar",
