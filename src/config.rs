@@ -1,7 +1,11 @@
 use clap::{arg, Parser};
+use serde::{Deserialize, Serialize};
 
-#[derive(Parser, Debug)]
+#[derive(Parser, Debug, Deserialize, Serialize)]
 pub struct Args {
+    #[clap(short, long)]
+    pub last: bool,
+
     #[clap(short, long)]
     pub ui: bool,
 
