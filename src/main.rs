@@ -58,22 +58,24 @@ fn main() {
 
     utils::set_last_config(&data);
 
-    dbg!(data);
+    let rows = data::read_rows(&data.csv);
+    let img = image::open(&data.asset).unwrap();
 
-    // let rows = data::read_rows(&args.csv);
-    // let img = image::open(args.asset).unwrap();
+    let dest = if data.pack.len() > 0 {
+        let d = format!("{}/{}", &data.pack, &data.dest);
+        data::setup_structure(&data.structure, &format!("{}/", &data.pack));
 
-    // let mut dest = args.dest;
-    // if args.pack.len() > 0 {
-    //     dest = format!("{}/", &args.pack);
-    //     data::setup_structure(&args.structure, &dest);
-    // }
+        d
+    } else {
+        data.dest.clone()
+    };
 
-    // for row in &rows {
-    //     let chunk_img = img::sub(&img, row.x, row.y, args.chunk);
+    for row in &rows {
+        let chunk_img = img::sub(&img, row.x, row.y, data.chunk);
 
-    //     let path = format!("{}/{}.png", &dest, &row.name);
-    //     utils::fill_path(&path);
-    //     chunk_img.save(&path).unwrap();
-    // }
+        let path = format!("{}/{}.png", &dest, &row.name);
+
+        utils::fill_path(&path);
+        chunk_img.save(&path).unwrap();
+    }
 }

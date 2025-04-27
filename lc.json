@@ -1,10 +1,10 @@
 {
     "last": false,
-    "ui": false,
+    "ui": true,
     "structure": "./assets/structure.template.json",
     "csv": "./assets/items.csv",
     "asset": "./assets/items.png",
     "chunk": 16,
     "pack": "./res_pack",
-    "dest": "./res"
+    "dest": "./assets/minecraft/"
 }

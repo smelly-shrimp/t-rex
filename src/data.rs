@@ -43,8 +43,9 @@ fn build_structure(value: &Value, path: &str) {
 }
 
 pub fn setup_structure(structure_path: &str, pack_path: &str) {
-    let data = fs::read_to_string(&structure_path).unwrap();
+    fs::create_dir_all(&pack_path).unwrap();
 
+    let data = fs::read_to_string(&structure_path).unwrap();
     let json: Value = serde_json::from_str(&data).unwrap();
 
     build_structure(&json, &pack_path);
