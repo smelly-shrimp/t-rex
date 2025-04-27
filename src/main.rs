@@ -5,7 +5,6 @@ use clap::Parser;
 pub mod config;
 pub mod data;
 pub mod img;
-pub mod utils;
 pub mod form;
 
 fn main() {
@@ -14,7 +13,7 @@ fn main() {
     let data = if args.last {
         println!("\n\nINFO! Running with previous configuration...\n\n");
 
-        utils::get_last_config()
+        config::get_last()
     } else if args.ui {
         println!("Hello! It's texture maker configuration.");
 
@@ -58,7 +57,7 @@ fn main() {
         args
     };
 
-    utils::set_last_config(&data);
+    config::save_last(&data);
 
     let rows = data::read_rows(&data.csv);
     let img = image::open(&data.asset).unwrap();
