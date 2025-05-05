@@ -22,28 +22,49 @@ pub fn is_help() -> bool {
 pub fn structure_path() -> String {
 	let def = String::from("./assets/structure.template.json");
 
-	Text::new("Enter structure path")
+	let res = Text::new("Enter structure path")
 		.with_default(&def)
-		.prompt()
-		.unwrap_or_else(|_| def)
+		.prompt();
+
+	match res {
+		Ok(path) => path,
+		Err(_) => {
+			println!("Invalid structure path, using default ({})", def);
+			def
+		},
+	}
 }
 
 pub fn csv_path() -> String {
 	let def = String::from("./assets/data.csv");
 
-	Text::new("Enter CSV path")
+	let res = Text::new("Enter CSV path")
 		.with_default(&def)
-		.prompt()
-		.unwrap_or_else(|_| def)
+		.prompt();
+
+	match res {
+		Ok(path) => path,
+		Err(_) => {
+			println!("Invalid CSV path, using default ({})", def);
+			def
+		},
+	}
 }
 
 pub fn asset_path() -> String {
 	let def = String::from("./assets/image.png");
 
-	Text::new("Enter asset path")
+	let res = Text::new("Enter asset path")
 		.with_default(&def)
-		.prompt()
-		.unwrap_or_else(|_| def)
+		.prompt();
+
+	match res {
+		Ok(path) => path,
+		Err(_) => {
+			println!("Invalid asset path, using default ({})", def);
+			def
+		},
+	}
 }
 
 pub fn chunk_size() -> u32 {
@@ -54,15 +75,13 @@ pub fn chunk_size() -> u32 {
 		.prompt()
 		.unwrap_or_else(|_| def.to_string());
 
-	let chunk_size = match res.parse::<u32>() {
+	match res.parse::<u32>() {
 		Ok(size) => size,
 		Err(_) => {
 			println!("Invalid chunk size, using default ({})", def);
 			def
 		},
-	};
-
-	chunk_size
+	}
 }
 
 pub fn is_pack() -> bool {
@@ -84,10 +103,17 @@ pub fn is_pack() -> bool {
 pub fn pack_path() -> String {
 	let def = String::from("./res_pack");
 
-	Text::new("Enter resource pack path")
+	let res = Text::new("Enter resource pack path")
 		.with_default(&def)
-		.prompt()
-		.unwrap_or_else(|_| def)
+		.prompt();
+
+	match res {
+		Ok(path) => path,
+		Err(_) => {
+			println!("Invalid pack path, using default ({})", def);
+			def
+		},
+	}
 }
 
 fn get_structure(value: &Value, path: &str, options: &mut Vec<String>) {

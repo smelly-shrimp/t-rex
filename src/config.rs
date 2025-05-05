@@ -5,6 +5,14 @@ use serde::{Deserialize, Serialize};
 use serde_json::ser::PrettyFormatter;
 
 #[derive(Parser, Debug, Deserialize, Serialize)]
+#[command(before_help = "\
+    ███░░░░░███░███░█░█\n\
+    ░█░░░░░░█░█░█░░░█░█\n\
+    ░█░░███░███░██░░░█░\n\
+    ░█░░░░░░██░░█░░░█░█\n\
+    ░█░░░░░░█░█░███░█░█\n\
+    Do whatever you want with it
+")]
 pub struct Args {
     #[clap(short, long)]
     pub last: bool,
@@ -12,22 +20,22 @@ pub struct Args {
     #[clap(short, long)]
     pub ui: bool,
 
-    #[arg(long, default_value_t = String::from("./assets/structure.template.json"))]
+    #[arg(short, long, default_value_t = String::from("./assets/structure.template.json"))]
     pub structure: String,
 
-    #[arg(long, default_value_t = String::from("./assets/data.csv"))]
+    #[arg(short = 'v', long, default_value_t = String::from("./assets/data.csv"))]
     pub csv: String,
 
-    #[arg(long, default_value_t = String::from("./assets/image.png"))]
+    #[arg(short, long, default_value_t = String::from("./assets/image.png"))]
     pub asset: String,
 
-    #[arg(long, default_value_t = 16)]
+    #[arg(short, long, default_value_t = 16)]
     pub chunk: u32,
 
-    #[arg(long, default_value_t = String::from("./res_pack"))]
+    #[arg(short, long, default_value_t = String::from("./res_pack"))]
     pub pack: String,
 
-    #[arg(long, default_value_t = String::from("./res"))]
+    #[arg(short, long, default_value_t = String::from("./res"))]
     pub dest: String,
 }
 

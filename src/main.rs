@@ -1,6 +1,7 @@
 use std::fs;
 
 use clap::Parser;
+use config::Args;
 
 pub mod config;
 pub mod data;
@@ -10,7 +11,7 @@ pub mod form;
 fn main() {
     let args = config::Args::parse();
 
-    let data = if args.last {
+    let data: Args = if args.last {
         println!("\n\nINFO! Running with previous configuration...\n\n");
 
         config::get_last()
@@ -18,7 +19,8 @@ fn main() {
         println!("Hello! It's texture maker configuration.");
 
         if form::is_help() {
-            println!("\n\nINFO! Help is not implemented yet.\n\n");
+            println!("\n\nINFO! For more info: t-rex --help\n\n");
+            return;
         }
 
         let structure_path = form::structure_path();
